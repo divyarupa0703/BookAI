@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Full page</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Fira+Code&display=swap" rel="stylesheet">
+
+    <style>
+        /* Existing styles */
+        .white {
+            background-color: white;
+            color: black;
+        }
+
+        /* New styles for white mode */
+        .white .bg-gray-800 {
+            background-color: rgb(202, 195, 195);
+            color: rgb(39, 38, 38);
+        }
+
+        .white .text-indigo-300 {
+            color: rgb(122, 81, 236);
+        }
+
+        .white .text-blue-300 {
+            color: black;
+        }
+
+        .white .border-gray-700 {
+            border-color: #ddd;
+        }
+
+        .white pre {
+            background-color: #f7f7f7;
+            color: #333;
+        }
+
+        .white code {
+            color: #333;
+        }
+
+        /* Styles for the floating action button (FAB) */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: #ffffff;
+        }
+
+        .fab {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 56px;
+            height: 56px;
+            background-color: #6200ee;
+            border-radius: 50%;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .fab svg {
+            width: 24px;
+            height: 24px;
+            fill: #ffffff;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-900 text-gray-100 font-inter">
+    <header class="bg-indigo-600 py-8 shadow-md text-center">
+        <h1 class="text-3xl font-bold text-white">Book Generator API</h1>
+    </header>
+    <!--navigation bar-->
+    <nav class="bg-gray-800 py-4 sticky top-0 z-50 shadow-md">
+        <ul class="flex justify-center space-x-4">
+            <li><a href="#overview" class="text-gray-200 hover:text-cyan-400 uppercase text-sm font-medium">Overview</a></li>
+            <li><a href="#auth" class="text-gray-200 hover:text-cyan-400 uppercase text-sm font-medium">Authentication</a></li>
+            <li><a href="#end" class="text-gray-200 hover:text-cyan-400 uppercase text-sm font-medium">Endpoints</a></li>
+            <li><a href="#tut" class="text-gray-200 hover:text-cyan-400 uppercase text-sm font-medium">Tutorials</a></li>
+            <li><a href="#code" class="text-gray-200 hover:text-cyan-400 uppercase text-sm font-medium">Code Examples</a></li>
+            <li><a href="#api" class="text-gray-200 hover:text-cyan-400 uppercase text-sm font-medium">API Pricing</a></li>
+        </ul>
+    </nav>
+    <main class="max-w-4xl mx-auto my-8 px-4">
+        <section id="overview" class="bg-gray-800 rounded-lg p-6 mb-8 shadow-md">
+            <h2 class="text-xl font-bold text-indigo-300">Overview</h2>
+            <p>The Book Generator API allows you to generate books on various topics using different language models.
+                This documentation provides details on how to use the API, including authentication, available
+                endpoints, and code examples.</p>
+        </section>
+        <section id="auth" class="bg-gray-800 rounded-lg p-6 mb-8 shadow-md">
+            <h2 class="text-xl font-bold text-indigo-300">Authentication</h2>
+            <p>To use the API, you need to include your API key in the header of each request:</p>
+            <pre
+                class="bg-gray-900 rounded p-4 text-sm text-white border border-gray-600 overflow-x-auto whitespace-pre-wrap break-all"><code>X-API-Key: YOUR_API_KEY</code></pre>
+            <p>To generate an API key, use the button below:</p>
+            <button id="generateApiKey"
+                class="bg-blue-500 text-black py-2 px-4 rounded mt-4 hover:bg-blue-400 transition">Generate API Key</button>
+            <div id="apiKeyDisplay" class="mt-4 text-center text-lg"></div>
+        <!--Endpoint section-->    
+        </section>
+        <section id="end" class="bg-gray-800 rounded-lg p-6 mb-8 shadow-md">
+            <h2 class="text-xl font-bold text-indigo-300">Endpoints</h2>
+            <h3 class="mt-4 font-semibold text-indigo-300">Generate Book</h3>
+            <div class="flex items-center mb-4">
+                <span class="bg-blue-400 text-black py-1 px-3 rounded-full font-bold mr-2">POST</span>
+                <span class="bg-indigo-600 text-white py-1 px-3 rounded-full font-bold">/api/generate-book</span>
+            </div>
+            <h3 class="mt-4 font-semibold text-indigo-300">Request Body</h3>
+            <table class="w-full mt-2 border border-gray-700 rounded">
+                <thead>
+                    <tr>
+                        <th class="bg-indigo-600 text-white py-2 px-4">PARAMETER</th>
+                        <th class="bg-indigo-600 text-white py-2 px-4">TYPE</th>
+                        <th class="bg-indigo-600 text-white py-2 px-4">DESCRIPTION</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="border-b border-gray-700 py-2 px-4 font-medium text-blue-300">api</td>
+                        <td class="border-b border-gray-700 py-2 px-4">string</td>
+                        <td class="border-b border-gray-700 py-2 px-4">The API provider to use. Options: "openai" or
+                            "together"</td>
+                    </tr>
+                    <tr>
+                        <td class="border-b border-gray-700 py-2 px-4 font-medium text-blue-300">model</td>
+                        <td class="border-b border-gray-700 py-2 px-4">string</td>
+                        <td class="border-b border-gray-700 py-2 px-4">The specific model to use (e.g., "gpt-3.5-turbo",
+                            "gpt-4", "llama-2-70b")</td>
+                    </tr>
+                    <tr>
+                        <td class="border-b border-gray-700 py-2 px-4 font-medium text-blue-300">topic</td>
+                        <td class="border-b border-gray-700 py-2 px-4">string</td>
+                        <td class="border-b border-gray-700 py-2 px-4">The main topic or theme of the book</td>
+                    </tr>
+                    <tr>
+                        <td class="border-b border-gray-700 py-2 px-4 font-medium text-blue-300">language</td>
+                        <td class="border-b border-gray-700 py-2 px-4">string</td>
+                        <td class="border-b border-gray-700 py-2 px-4">The language in which the book should be
+                            generated</td>
+                    </tr>
+                    <tr>
+                        <td class="border-b border-gray-700 py-2 px-4 font-medium text-blue-300">word_count</td>
+                        <td class="border-b border-gray-700 py-2 px-4">integer</td>
+                        <td class="border-b border-gray-700 py-2 px-4">The approximate number of words for the generated
+                            book</td>
+                    </tr>
+                </tbody>
+            </table>
+            <h3 class="mt-4 font-semibold text-indigo-300">Response</h3>
+            <pre
+                class="bg-gray-900 rounded p-4 text-sm text-white border border-gray-600 overflow-x-auto whitespace-pre-wrap break-all"><code>{
+            "message": "Book generation started",
+            "status": "processing",
+            "job_id": "unique-job-identifier"
+        }</code></pre>
+        <!-- Tutorial section -->
+        </section>
+        <section id="tut" class="bg-gray-800 rounded-lg p-6 mb-8 shadow-md">
+            <h2 class="text-xl font-bold text-indigo-300">Tutorial</h2>
+            <h3 class="mt-4 font-semibold text-indigo-300">Step 1: Obtain an API Key</h3>
+            <p>Generate an API key using the button in the Authentication section above.</p>
+            <h3 class="mt-4 font-semibold text-indigo-300">Step 2: Choose an Endpoint</h3>
+            <p>Select the appropriate endpoint based on your requirements.</p>
+            <h3 class="mt-4 font-semibold text-indigo-300">Step 3: Make a Request</h3>
+            <p>The API will return a response with a job ID. You can use this ID to check the status of your book generation job.</p>
+            <h3 class="mt-4 font-semibold text-indigo-300">Step 4: Check the Response</h3>
+            <p>Review the response from the API for the job status and generated book link.</p>
+        </section>
+        <section id="code" class="bg-gray-800 rounded-lg p-6 mb-8 shadow-md">
+            <h2 class="text-xl font-bold text-indigo-300">Code Examples</h2>
+            <h3 class="mt-4 font-semibold text-indigo-300">Python Example</h3>
+            <pre
+                class="bg-gray-900 rounded p-4 text-sm text-white border border-gray-600 overflow-x-auto whitespace-pre-wrap break-all"><code>import requests
+
+        url = 'https://api.example.com/generate-book'
+        headers = {
+            'Content-Type': 'application/json',
+            'X-API-Key': 'YOUR_API_KEY'
+        }
+        data = {
+            'api': 'openai',
+            'model': 'gpt-3.5-turbo',
+            'topic': 'History of the Internet',
+            'language': 'English',
+            'word_count': 10000
+        }
+
+        response = requests.post(url, headers=headers, json=data)
+        print(response.json())</code></pre>
+            <h3 class="mt-4 font-semibold text-indigo-300">JavaScript Example</h3>
+            <pre
+                class="bg-gray-900 rounded p-4 text-sm text-white border border-gray-600 overflow-x-auto whitespace-pre-wrap break-all"><code>fetch('https://api.example.com/generate-book', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-API-Key': 'YOUR_API_KEY'
+            },
+            body: JSON.stringify({
+                api: 'openai',
+                model: 'gpt-3.5-turbo',
+                topic: 'History of the Internet',
+                language: 'English',
+                word_count: 10000
+            })
+        })
+        .then(response => response.json())
+        .then(data => console.log(data));</code></pre>
+        </section>
+        <section id="api" class="bg-gray-800 rounded-lg p-6 mb-8 shadow-md"><h2 class="text-xl font-bold text-indigo-300" >API Pricing</h2><p>Our API pricing is based on the model used and the number of tokens processed. Here's a breakdown of the costs:</p>
+            <h3 class="mt-4 font-semibold text-indigo-300">Request Body</h3>
+                    <table class="w-full mt-2 border border-gray-700 rounded">
+                        <thead>
+                            <tr>
+                                <th class="bg-indigo-600 text-white py-2 px-4">API</th>
+                                <th class="bg-indigo-600 text-white py-2 px-4">MODEL</th>
+                                <th class="bg-indigo-600 text-white py-2 px-4">PRICE PER 1K TOKENS</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="border-b border-gray-700 py-2 px-4 font-medium text-blue-300">OpenAI</td>
+                                <td class="border-b border-gray-700 py-2 px-4">GPT-3.5</td>
+                                <td class="border-b border-gray-700 py-2 px-4">$0.002</td>
+                            </tr>
+                            <tr>
+                                <td class="border-b border-gray-700 py-2 px-4 font-medium text-blue-300">OpenAI</td>
+                                <td class="border-b border-gray-700 py-2 px-4">GPT-4</td>
+                                <td class="border-b border-gray-700 py-2 px-4">$0.03</td>
+                            </tr>
+                            <tr>
+                                <td class="border-b border-gray-700 py-2 px-4 font-medium text-blue-300">Together AI</td>
+                                <td class="border-b border-gray-700 py-2 px-4">Llama-2-70b</td>
+                                <td class="border-b border-gray-700 py-2 px-4">$0.0008</td>
+                            </tr>
+                            <tr>
+                                <td class="border-b border-gray-700 py-2 px-4 font-medium text-blue-300">Together AI</td>
+                                <td class="border-b border-gray-700 py-2 px-4">Llama-2-13b</td>
+                                <td class="border-b border-gray-700 py-2 px-4">$0.0006</td>
+                            </tr>
+                        </tbody>
+                    </table><br>
+            <h3 class="text-xl font-semibold text-indigo-300">Token Estimation </h3>
+            <p>On average, 1 token is approximately 4 characters or 0.75 words. For precise pricing, we recommend using our token calculator tool.</p>
+            <br>
+            <h3 class="text-xl font-semibold text-indigo-300">Billing</h3>
+            <p>You will only be charged for the tokens used in generating the book. The API tracks token usage and bills accordingly. Detailed usage reports are available in your account dashboard.</p>    </main>
+
+    <!-- Floating Action Button -->
+    <div class="fab" onclick="toggleMode()">
+        Toggle
+    </div>
+
+    <script>
+        function toggleMode() {
+            document.body.classList.toggle("white");
+        }
+
+        // Function to generate and display the API key
+        function generateApiKey() {
+            // Simulating API key generation
+            const apiKey = 'API-' + Math.random().toString(36).substr(2, 12).toUpperCase();
+            document.getElementById('apiKeyDisplay').innerText = 'Your API Key: ' + apiKey;
+        }
+
+        // Attach event listener to the Generate API Key button
+        document.getElementById('generateApiKey').addEventListener('click', generateApiKey);
+    </script>
+</body>
+
+</html>
